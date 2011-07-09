@@ -1,0 +1,21 @@
+This file contains a line for each run, with the value of delta, the insert size (the gap + 2*readlength) and l (the readlength).  
+The value of k is always l - 1.
+So, for example, the first line says that runhum1a.fa contains reads generated with delta=0, insert size 5000, read length 50, and k=49.
+
+
+run=hum1a; delta=0; is=5000; l=50; 
+run=hum1b; delta=0; is=1000; l=50; 
+run=hum1c; delta=0; is=200; l=50; 
+run=hum2a; delta=0; is=1000; l=300;
+run=hum2b; delta=0; is=1000; l=100;
+run=hum2d; delta=0; is=1000; l=20; 
+run=hum3b; delta=5; is=1000; l=50;
+run=hum3c; delta=20; is=1000; l=50;
+run=hum3d; delta=40; is=1000; l=50;
+run=eco1a; delta=0; is=2000; l=50; 
+run=eco1b; delta=0; is=200; l=50; 
+run=eco2a; delta=0; is=1000; l=20;
+run=eco2b; delta=0; is=1000; l=10;
+run=eco3b; delta=20; is=1000; l=50;
+run=eco3c; delta=40; is=1000; l=50;
+run=eco3d; delta=200; is=1000; l=50; 

@@ -1,0 +1,205 @@
+
+run0 #What is the best value of d?
+run4 #How much coverage do we need?
+run8 #How much does it help to read further into the insert?
+
+# pbg/src/generateReads infile l k d delta cov
+pbg/src/singleGenerateReads data/run0 50 49 0 
+pbg/src/generateReads data/run1 50 49 100 0 0 
+pbg/src/generateReads data/run2 50 49 1000 0 0 
+pbg/src/generateReads data/run3 50 49 10000 0 0 
+pbg/src/singleGenerateReads data/run3a 100 99 0 
+pbg/src/singleGenerateReads data/run3b 200 199 0 
+pbg/src/generateReads data/run4 100 50 2000 20 2  
+pbg/src/generateReads data/run5 100 50 2000 20 4 
+pbg/src/generateReads data/run6 100 50 2000 20 20 
+pbg/src/generateReads data/run7 100 50 2000 20 0 
+pbg/src/generateReads data/run8 10 9 1980 0 0 
+pbg/src/generateReads data/run9 20 19 1960 0 0 
+pbg/src/generateReads data/run10 50 49 1900 0 0 
+pbg/src/generateReads data/run11 100 99 1800 0 0 
+pbg/src/generateReads data/run12 500 499 1000 0 0 
+pbg/src/singleGenerateReads data/run13 2000 1999 0 
+
+cp data/ecoli.fa data/test1; pbg/src/generateReads data/test1 20 19 200 5 0; sort -k1,1 data/test1.readk | awk '{print $2 }' > data/test1.readks; pbg/src/pab data/test1 20 19 5 
+cp data/ecoli.fa data/test2; pbg/src/singleGenerateReads data/test2 20 19 0; sort -k1,1 data/test2.readk  > data/test2.readks; pbg/src/pab data/test2 20 19  
+
+
+
+run=h0; delta=0; l=50; k=40; cov=0; cp data/chr22.fa data/run$run; pbg/src/singleGenerateReads data/run$run $l $k $cov ; sort -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; pbg/src/ab data/run$run $l $k
+run=h1; delta=0; dist=100; l=50; k=49; cov=0; cp data/chr22.fa data/run$run; pbg/src/generateReads data/run$run $l $k $dist $delta $cov ; sort -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; pbg/src/pab data/run$run $l $k $delta
+run=h2; delta=0; dist=900; l=50; k=49; cov=0; cp data/chr22.fa data/run$run; pbg/src/generateReads data/run$run $l $k $dist $delta $cov ; sort -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; pbg/src/pab data/run$run $l $k $delta
+run=h3; delta=0; dist=4900; l=50; k=49; cov=0;  cp data/chr22.fa data/run$run; pbg/src/generateReads data/run$run $l $k $dist $delta $cov ; sort -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; pbg/src/pab data/run$run $l $k $delta
+run=h4; delta=0; dist=9900; l=50; k=49; cov=0; cp data/chr22.fa data/run$run; pbg/src/generateReads data/run$run $l $k $dist $delta $cov ; sort -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; pbg/src/pab data/run$run $l $k $delta
+
+
+gen=data/chr14.fa; run=h5a; l=50; k=49; cov=0; cp $gen data/run$run; pbg/src/singleGenerateReads data/run$run $l $k $cov ; sort -T/filer/pashadag/tmp -S8000000000 -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; pbg/src/ab data/run$run $l $k
+gen=data/chr14.fa; run=h5b; dist=100; l=50; k=49; cov=0; cp $gen data/run$run; pbg/src/generateReads data/run$run $l $k $dist 0 $cov ; sort -T/filer/pashadag/tmp -S8000000000 -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; pbg/src/pab data/run$run $l $k $cov
+gen=data/chr14.fa; run=h5c; dist=900; l=50; k=49; cov=0; cp $gen data/run$run; pbg/src/generateReads data/run$run $l $k $dist 0 $cov ; sort -T/filer/pashadag/tmp -S8000000000 -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; pbg/src/pab data/run$run $l $k $cov
+gen=data/chr14.fa; run=h5d; dist=4900; l=50; k=49; cov=0;  cp $gen data/run$run; pbg/src/generateReads data/run$run $l $k $dist 0 $cov ; sort -T/filer/pashadag/tmp -S8000000000 -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; pbg/src/pab data/run$run $l $k $cov
+gen=data/chr14.fa; run=h5e; dist=9900; l=50; k=49; cov=0; cp $gen data/run$run; pbg/src/generateReads data/run$run $l $k $dist 0 $cov ; sort -T/filer/pashadag/tmp -S8000000000 -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; pbg/src/pab data/run$run $l $k $cov
+
+
+
+082210 runs
+
+run=h0; l=50; k=40; cov=0; cp data/chr22.fa data/run$run; pbg/src/singleGenerateReads data/run$run $l $k $cov ; sort -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; pbg/src/ab data/run$run $l $k
+run=h1; dist=100; l=50; k=49; cov=0; cp data/chr22.fa data/run$run; pbg/src/generateReads data/run$run $l $k $dist 0 $cov ; sort -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; pbg/src/pab data/run$run $l $k $cov
+
+run=h2a; dist=9900; delta=100; l=50; k=49; cov=0; cp data/chr22.fa data/run$run; ./generateReads data/run$run $l $k $dist $delta $cov ; sort -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; ./pab data/run$run $l $k $delta
+
+
+run=test1; dist=900; delta=20; l=50; k=49; cov=0; cp data/ecoli.fa data/run$run; ./generateReads data/run$run $l $k $dist $delta $cov ; sort -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; ./pab data/run$run $l $k $delta
+run=test2; dist=900; delta=20; l=50; k=49; cov=0; head -10000 data/ecoli.fa > data/run$run; ./generateReads data/run$run $l $k $dist $delta $cov ; sort -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; ./pab data/run$run $l $k $delta
+run=test3; dist=900; delta=20; l=50; k=49; cov=0; head -10000 data/ecoli.fa > data/run$run; ./generateReads data/run$run $l $k $dist $delta $cov ; sort -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; ./pabNL data/run$run $l $k $delta
+
+run=t3a; delta=0; dist=1900; l=50; k=49; cov=0; cp data/ecoli.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov ; sort -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; pab data/run$run $l $k $delta; cat data/run$run.contigsString | qcheck2 data/ecoli.fa data/ecoli.sa | grep NO | wc -l
+run=t3b; delta=19; dist=1900; l=50; k=49; cov=0; cp data/ecoli.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov ; sort -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; pabNL data/run$run $l $k $delta; cat data/run$run.contigsString | qcheck2 data/ecoli.fa data/ecoli.sa | grep NO | wc -l
+run=t3b2; delta=19; dist=1900; l=50; k=49; cov=0; cp data/ecoli.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov ; sort -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; pab data/run$run $l $k $delta; cat data/run$run.contigsString | qcheck2 data/ecoli.fa data/ecoli.sa | grep NO | wc -l
+run=t3c; delta=40; dist=1900; l=50; k=49; cov=0; cp data/ecoli.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov ; sort -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; pabNL data/run$run $l $k $delta; cat data/run$run.contigsString | qcheck2 data/ecoli.fa data/ecoli.sa | grep NO | wc -l
+run=t3d; delta=100; dist=1900; l=50; k=49; cov=0; cp data/ecoli.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov ; sort -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; pabNL data/run$run $l $k $delta; cat data/run$run.contigsString | qcheck2 data/ecoli.fa data/ecoli.sa | grep NO | wc -l
+run=t3e; delta=200; dist=1900; l=50; k=49; cov=0; cp data/ecoli.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov ; sort -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; pabNL data/run$run $l $k $delta; cat data/run$run.contigsString | qcheck2 data/ecoli.fa data/ecoli.sa | grep NO | wc -l
+
+
+run=t4a; delta=10; dist=1900; l=50; k=49; cov=0; cp data/ecoli.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov ; sort -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; pabNL data/run$run $l $k $delta; cat data/run$run.contigsString | qcheck2 data/ecoli.fa data/ecoli.sa
+run=t4b; delta=10; dist=1900; l=50; k=49; cov=0; cp data/ecoli.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov ; sort -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; pab data/run$run $l $k $delta; cat data/run$run.contigsString | qcheck2 data/ecoli.fa data/ecoli.sa
+
+run=h3b; delta=19; dist=4900; l=50; k=49; cov=0; gen=chr22filt;  
+run=h3b2; delta=19; dist=4900; l=50; k=49; cov=0; cp data/chr22filt.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov ; sort -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; pab data/run$run $l $k $delta; cat data/run$run.contigsString | qcheck2 data/chr22filt.fa data/chr22filt.sa | grep NO | wc -l
+run=h3c; delta=50; dist=4900; l=50; k=49; cov=0; gen=chr22filt;  
+run=h3d; delta=120; dist=4900; l=50; k=49; cov=0; gen=chr22filt;  
+run=h3e; delta=250; dist=4900; l=50; k=49; cov=0; 
+
+
+run=t1; delta=19; dist=4900; l=50; k=49; cov=0; gen=chr22filt;  
+run=t2; delta=19; dist=1900; l=50; k=49; cov=0; gen=ecoli; 
+run=t3; delta=50; dist=4900; l=50; k=49; cov=0; gen=chr22filt;  
+run=t4; delta=50; dist=4900; l=50; k=49; cov=0; gen=chr22.short;  
+
+run=t6; delta=50; dist=1900; l=50; k=49; cov=80; gen=ecoli;
+run=t7; delta=50; dist=4900; l=50; k=49; cov=80; gen=chr22.short;
+
+cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov ; sort -S8000000000 -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; pabNL data/run$run $l $k $delta save; cat data/run$run.contigsString | qcheck2 data/$gen.fa data/$gen.sa | grep NO | wc -l
+
+
+
+
+cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov ; sort -S8000000000 -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks; infosize=`wc -l data/run$run.readks | item 1`; pabNLpar data/run$run $l $k $delta 7 $infosize save; cat data/run$run.contigsString | qcheck2 data/$gen.fa data/$gen.sa | grep NO | wc -l
+
+oldrun=t0; newrun=t10; ln -s run$oldrun data/run$newrun; ln -s run$oldrun.readl data/run$newrun.readl; ln -s run$oldrun.readks -s data/run$newrun.readks
+
+
+run=a1; delta=50; dist=4900; l=50; k=49; cov=0; gen=chr22filt;  
+pabNL data/run$run $l $k $delta save; cat data/run$run.contigsString | qcheck2 data/$gen.fa data/$gen.sa | grep NO | wc -l
+
+run=a2; delta=50; dist=4900; l=50; k=49; cov=0; gen=chr22filt;  
+infosize=`wc -l data/run$run.readks | item 1`; pabNLpar data/run$run $l $k $delta 1 $infosize save; cat data/run$run.contigsString | qcheck2 data/$gen.fa data/$gen.sa | grep NO | wc -l
+
+run=a3; delta=50; dist=4900; l=50; k=49; cov=0; gen=chr22filt;  
+infosize=`wc -l data/run$run.readks | item 1`; pabNLpar data/run$run $l $k $delta 7 $infosize save; cat data/run$run.contigsString | qcheck2 data/$gen.fa data/$gen.sa | grep NO | wc -l
+
+
+run=t0; delta=50; dist=1800; l=100; k=49; cov=25; gen=ecoli; 
+run=t1; delta=50; dist=1800; l=100; k=49; cov=50; gen=ecoli; 
+run=t2; delta=50; dist=1800; l=100; k=49; cov=75; gen=ecoli; 
+cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov ; sort -S8000000000 -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks; 
+infosize=`wc -l data/run$run.readks | item 1`; pabFull data/run$run $l $k $delta 7 $infosize save; cat data/run$run.contigsString | qcheck2 data/$gen.fa data/$gen.sa | grep NO | wc -l
+infosize=`wc -l data/run$run.readks | item 1`; pabFull data/run$run $l $k $delta 7 $infosize superfast; cat data/run$run.contigsString | qcheck2 data/$gen.fa data/$gen.sa | grep NO | wc -l
+
+
+run=h4a; delta=20; dist=900; l=50; k=49; cov=0; gen=chr22filt;  
+run=h4b; delta=100; dist=4900; l=50; k=49; cov=0; gen=chr22filt;  
+run=h4c; delta=200; dist=9900; l=50; k=49; cov=0; gen=chr22filt;  
+
+run=e1a; delta=20; dist=900; l=50; k=49; cov=0; gen=chr22filt;  
+run=e1b; delta=100; dist=4900; l=50; k=49; cov=0; gen=chr22filt;  
+run=e1c; delta=200; dist=9900; l=50; k=49; cov=0; gen=chr22filt;  
+
+
+
+FIGURE 1: mostliy reuse, create figure from
+../082010/data/runh1.contigs
+../082010/data/runh2.contigs
+../082010/data/runh3.contigs
+../082010/data/runh0.contigs
+
+here are the older runs from 0820 that generated this
+run=h1; delta=0; dist=100; l=50; k=49; cov=0; cp data/chr22.fa data/run$run; pbg/src/generateReads data/run$run $l $k $dist $delta $cov ; sort -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; pbg/src/pab data/run$run $l $k $delta
+run=h2; delta=0; dist=900; l=50; k=49; cov=0; cp data/chr22.fa data/run$run; pbg/src/generateReads data/run$run $l $k $dist $delta $cov ; sort -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; pbg/src/pab data/run$run $l $k $delta
+run=h3; delta=0; dist=4900; l=50; k=49; cov=0;  cp data/chr22.fa data/run$run; pbg/src/generateReads data/run$run $l $k $dist $delta $cov ; sort -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; pbg/src/pab data/run$run $l $k $delta
+pbg/src/singleGenerateReads data/run0 50 49 0 
+
+../082010/data/run0.contigs
+
+FIGURE 2:
+
+run=f2a; delta=5; dist=900; l=50; k=49; cov=0; gen=chr22filt;  
+run=f2b; delta=20; dist=900; l=50; k=49; cov=0; gen=chr22filt;  
+run=f2c; delta=40; dist=900; l=50; k=49; cov=0; gen=chr22filt;  
+cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov ; sort -S8000000000 -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks; infosize=`wc -l data/run$run.readks | item 1`; pabFull data/run$run $l $k $delta 7 $infosize save; cat data/run$run.contigsString | qcheck2 data/$gen.fa data/$gen.sa | grep NO | wc -l
+
+reuse:
+../082010/data/run0.contigs ##WRONG
+../082010/data/runh2.contigs
+
+old gen code:
+run=h2; delta=0; dist=900; l=50; k=49; cov=0; cp data/chr22.fa data/run$run; pbg/src/generateReads data/run$run $l $k $dist $delta $cov ; sort -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; pbg/src/pab data/run$run $l $k $delta
+
+and for ecoli:
+run=f2e; delta=20; dist=900; l=50; k=49; cov=0; gen=ecoli;  
+run=f2f; delta=40; dist=900; l=50; k=49; cov=0; gen=ecoli;  
+run=f2h; delta=200; dist=900; l=50; k=49; cov=0; gen=ecoli;  
+cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov ; sort -S3000000000 -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks; infosize=`wc -l data/run$run.readks | item 1`; pabFull data/run$run $l $k $delta 7 $infosize save; cat data/run$run.contigsString | qcheck2 data/$gen.fa data/$gen.sa | grep NO | wc -l
+f4a (delta 0)
+run0
+
+FIGURE 3:
+
+run=f3a; delta=10; dist=100; l=50; k=25; cov=80; gen=ecoli;  
+run=f3b; delta=50; dist=900; l=50; k=25; cov=80; gen=ecoli;  
+run=f3c; delta=250; dist=4900; l=50; k=25; cov=80; gen=ecoli;  
+
+
+run=f3d; delta=4; dist=100; l=50; k=25; cov=80; gen=ecoli;  
+run=f3e; delta=20; dist=900; l=50; k=25; cov=80; gen=ecoli;  
+run=f3f; delta=100; dist=4900; l=50; k=25; cov=80; gen=ecoli;  
+
+run=f3g; delta=6; dist=100; l=100; k=49; cov=80; gen=ecoli;  
+run=f3h; delta=20; dist=800; l=100; k=49; cov=80; gen=ecoli;  
+run=f3i; delta=100; dist=4800; l=100; k=49; cov=80; gen=ecoli;  
+
+cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov ; sort -S8000000000 -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks; infosize=`wc -l data/run$run.readks | item 1`; pabFull data/run$run $l $k $delta 7 $infosize save; cat data/run$run.contigsString | qcheck2 data/$gen.fa data/$gen.sa | grep NO | wc -l
+
+run=e100; l=100; k=99; cov=0; gen=ecoli;  cp data/$gen.fa data/run$run; singleGenerateReads data/run$run $l $k $cov ; sort -k1,1 -S8000000000 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; ab data/run$run $l $k
+
+FIGURE 4:
+run=f4a; delta=0; dist=900; l=50; k=49; cov=0; gen=ecoli;  
+run=f4b; delta=0; dist=960; l=20; k=19; cov=0; gen=ecoli;  
+run=f4c; delta=0; dist=980; l=10; k=9; cov=0; gen=ecoli;  
+cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov ; sort -S3000000000 -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks; infosize=`wc -l data/run$run.readks | item 1`; pabFull data/run$run $l $k $delta 3 $infosize save; cat data/run$run.contigsString | qcheck2 data/$gen.fa data/$gen.sa | grep NO | wc -l
+
+run=f4d; cov=0; l=1000; k=999; gen=ecoli; cp data/$gen.fa data/run$run; singleGenerateReads data/run$run $l $k $cov ; sort -k1,1 -S8000000000 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; ab data/run$run $l $k
+
+
+run=f4e; delta=0; dist=900; l=50; k=49; cov=0; gen=chr22filt;  
+run=f4f; delta=0; dist=960; l=20; k=19; cov=0; gen=chr22filt;  
+run=f4g; delta=0; dist=980; l=10; k=9; cov=0; gen=chr22filt;  
+run=f4m; delta=0; dist=800; l=100; k=99; cov=0; gen=chr22filt;  cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov ; sort -S10G -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks; infosize=`wc -l data/run$run.readks | item 1`; pabFull data/run$run $l $k $delta 3 $infosize save; cat data/run$run.contigsString | qcheck2 data/$gen.fa data/$gen.sa | grep NO | wc -l
+run=f4k; delta=0; dist=600; l=200; k=199; cov=0; gen=chr22filt;  cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov ; sort -S20G -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks; infosize=`wc -l data/run$run.readks | item 1`; pabFull data/run$run $l $k $delta 3 $infosize save; cat data/run$run.contigsString | qcheck2 data/$gen.fa data/$gen.sa | grep NO | wc -l
+run=f4j; delta=0; dist=700; l=150; k=149; cov=0; gen=chr22filt;  cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov ; sort -S15G -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks; infosize=`wc -l data/run$run.readks | item 1`; pabFull data/run$run $l $k $delta 3 $infosize save; cat data/run$run.contigsString | qcheck2 data/$gen.fa data/$gen.sa | grep NO | wc -l
+run=f4l; delta=0; dist=400; l=300; k=299; cov=0; gen=chr22filt;  cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov ; sort -S30G -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks; infosize=`wc -l data/run$run.readks | item 1`; pabFull data/run$run $l $k $delta 3 $infosize save; cat data/run$run.contigsString | qcheck2 data/$gen.fa data/$gen.sa | grep NO | wc -l
+
+run=f4h; cov=0; l=1000; k=999; gen=chr22filt; cp data/$gen.fa data/run$run; cheat data/run$run $l ; abcheat data/run$run $l $k; cat data/run$run.contigsString  | awk '{ print ">" NR; print $0 }' | qcheck2 data/$gen.fa data/$gen.sa
+#run=f4h; cov=0; l=1000; k=999; gen=chr22filt; cp data/$gen.fa data/run$run; singleGenerateReads data/run$run $l $k $cov ; sort -k1,1 -S8000000000 -T/filer/pashadag/tmp data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; ab data/run$run $l $k
+
+01/30/11 update:
+run=n4a; delta=0; dist=4900; l=100; k=49; cov=0; gen=chr22filt;  
+run=n4b; delta=0; dist=4960; l=50; k=19; cov=0; gen=chr22filt;  
+run=n4c; delta=0; dist=4980; l=20; k=9; cov=0; gen=chr22filt;  
+cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov ; sort -S10g -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks; infosize=`wc -l data/run$run.readks | item 1`; pabFull data/run$run $l $k $delta 2 $infosize save; cat data/run$run.contigsString | qcheck2 data/$gen.fa data/$gen.sa | grep NO | wc -l
+
+run=f4h+; cov=0; l=1000; k=999; gen=chr22filt; cp data/$gen.fa data/run$run; singleGenerateReads data/run$run $l $k $cov ; sort -k1,1 -S30g -T/filer/pashadag/tmp data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; ab data/run$run $l $k
+
+testing:
+run=t1; delta=0; dist=1; l=3; k=2; cov=0; gen=ex1;  
+cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov ; sort -S3000000000 -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks; infosize=`wc -l data/run$run.readks | item 1`; pabFull data/run$run $l $k $delta 1 $infosize save; dot -Tpdf data/run$run.pdb.dot -o data/run$run.pdb.pdf; dot -Tpdf data/run$run.db.dot -o data/run$run.db.pdf; send2sd data/run$run.db.pdf; send2sd data/run$run.pdb.pdf

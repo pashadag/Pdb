@@ -1,0 +1,74 @@
+Code for PDB paper (recomb 11)
+
+MAIN FILES:
+
+singleGenerateReads.cpp  
+Generates non-paired reads from a genome
+
+generateReads.cpp  
+Generates paired reads from a genome
+
+ab.cpp       
+Assembles non-paired reads
+
+pab.cpp            
+Assembles paired reads -- exact d version
+
+pabNL.cpp    
+Assembles paired reads -- NoLimit on delta
+
+pabNLpar.cpp  
+Threaded version of pabNL
+
+pabFull.cpp  
+Adds support for gaps in the coverage to pabNL.  This is done by effectively throwing away any matepairs whose right mate doesn't have a place in the DB (b/c the DB is implemented just for the left reads).
+This version should supercede all the other ones -- use it in place of pab, pabNL, pabNLpar.  There are probably bug fixes in this one that are not in the other ones.
+
+
+
+
+VALIDATION:
+
+plot.py       
+Plots the contig lengths
+
+qcheck.sh    
+Uses blat to check accuracy of contigs
+
+qcheck2.cpp  
+Uses suffix array to check accuracy of contigs
+
+
+
+
+OTHER:
+
+check_loops.cpp    
+Reports any loops found in the dbcollapsed output file.
+
+union.h
+Implements union find data structure
+
+buildsa.cpp    
+Builds the suffix array for a genome
+
+filter_genome.cpp  
+Removes all non [atcgATGC] characters from the genome and uppercases everything
+
+run
+Collections of commands used to generate figures in paper
+
+
+
+
+THE FOLLOWING ARE FILES STILL IN DEVELOPMENT:
+
+short.cpp                
+A replacement for singleGenerateReads that saves memory by using the genome sequence in sorting.
+
+abshort.cpp  
+A replacement for ab.cpp saves memory by using indices into the  genome sequence in place of the read strings.
+
+validate.cpp
+A tool that takes a partition info and, using the source genome sequence as a cheat, checks if the partitioning is safe.
+

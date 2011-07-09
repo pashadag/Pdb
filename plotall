@@ -1,0 +1,19 @@
+#!/bin/sh
+python plot.py eulerecoli1 
+python plot.py eulerecoli2
+python plot.py eulerecoli3 
+python plot.py eulerecoliold1
+python plot.py eulerecoliold2
+python plot.py eulerecoliold3 
+python plot.py eulerhuman1
+python plot.py eulerhuman3
+cd figTemplateEcoli
+pdflatex fig.tex
+cp fig.pdf ../figEcoli.pdf 
+cd ..
+cd figTemplateHuman
+pdflatex fig.tex
+cp fig.pdf ../figHuman.pdf 
+cd ..
+send2sd figEcoli.pdf
+send2sd figHuman.pdf

@@ -1,0 +1,84 @@
+run=n4a; delta=0; dist=4900; l=100; k=99; cov=0; gen=chr22filt; cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov ; sort -S15g -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks; infosize=`wc -l data/run$run.readks | item 1`; pabFull data/run$run $l $k $delta 2 $infosize save; cat data/run$run.contigsString | qcheck2 data/$gen.fa data/$gen.sa | grep NO | wc -l
+run=n4b; delta=0; dist=1900; l=100; k=99; cov=0; gen=chr22filt; cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov ; sort -S15g -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks; infosize=`wc -l data/run$run.readks | item 1`; pabFull data/run$run $l $k $delta 2 $infosize save; cat data/run$run.contigsString | qcheck2 data/$gen.fa data/$gen.sa | grep NO | wc -l
+run=n4c; delta=0; dist=2900; l=100; k=99; cov=0; gen=chr22filt; cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov ; sort -S15g -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks; infosize=`wc -l data/run$run.readks | item 1`; pabFull data/run$run $l $k $delta 2 $infosize save; cat data/run$run.contigsString | qcheck2 data/$gen.fa data/$gen.sa | grep NO | wc -l
+run=n4d; delta=0; dist=3900; l=100; k=99; cov=0; gen=chr22filt; cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov ; sort -S15g -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks; infosize=`wc -l data/run$run.readks | item 1`; pabFull data/run$run $l $k $delta 2 $infosize save; cat data/run$run.contigsString | qcheck2 data/$gen.fa data/$gen.sa | grep NO | wc -l
+run=f4h+; cov=0; l=1000; k=999; gen=chr22filt; cp data/$gen.fa data/run$run; singleGenerateReads data/run$run $l $k $cov ; sort -k1,1 -S30g -T/filer/pashadag/tmp data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ; ab data/run$run $l $k
+k=50;   
+k=2000; 
+k=3000; 
+k=4000; 
+k=5000; 
+dbt db -g chr22filt -k $k -o chr22filt.$k.db; dbt contigs -g chr22filt -o chr22filt.$k
+k=50;   echo "L=$k" > chr22filt.$k.contigs.lengths; cat chr22filt.$k.contigs | awk '{ print length($1) }' | sort -nr >> chr22filt.$k.contigs.lengths
+k=1000;   echo "L=$k" > chr22filt.$k.contigs.lengths; cat chr22filt.$k.contigs | awk '{ print length($1) }' | sort -nr >> chr22filt.$k.contigs.lengths
+k=2000;   echo "L=$k" > chr22filt.$k.contigs.lengths; cat chr22filt.$k.contigs | awk '{ print length($1) }' | sort -nr >> chr22filt.$k.contigs.lengths
+k=3000;   echo "L=$k" > chr22filt.$k.contigs.lengths; cat chr22filt.$k.contigs | awk '{ print length($1) }' | sort -nr >> chr22filt.$k.contigs.lengths
+k=4000;   echo "L=$k" > chr22filt.$k.contigs.lengths; cat chr22filt.$k.contigs | awk '{ print length($1) }' | sort -nr >> chr22filt.$k.contigs.lengths
+k=5000;   echo "L=$k" > chr22filt.$k.contigs.lengths; cat chr22filt.$k.contigs | awk '{ print length($1) }' | sort -nr >> chr22filt.$k.contigs.lengths
+
+run=yo1; cov=0; l=50; k=49; gen=ecoli.fixedheader; cp data/$gen.fa data/run$run; singleGenerateReads data/run$run $l $k $cov ; sort -k1,1 -S10g -T/filer/pashadag/tmp data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ;  abshort data/run$run $l $k; cat data/run$run.contigs | sort -nr > data/run$run.contigs.s
+run=yo2; cov=0; l=1000; k=999; gen=ecoli.fixedheader; cp data/$gen.fa data/run$run; singleGenerateReads data/run$run $l $k $cov ; sort -k1,1 -S15g -T/filer/pashadag/tmp data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ;  abshort data/run$run $l $k; cat data/run$run.contigs | sort -nr > data/run$run.contigs.s
+run=yo3; cov=0; l=10; k=9; gen=ecoli3; cp data/$gen.fa data/run$run; singleGenerateReads data/run$run $l $k $cov ; sort -k1,1  -T/filer/pashadag/tmp data/run$run.readk | awk '{ print $2 }' > data/run$run.readks ;  abshort data/run$run $l $k
+
+
+run=f4h+; cov=0; l=1000; k=999; gen=chr22filt; abshort data/run$run $l $k; cat data/run$run.contigs | sort -nr > data/run$run.contigs.s
+
+
+run=n4e; delta=0; dist=4960; l=20;  k=19; cov=0; gen=chr22filt; cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov ; sort -S10g -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks; infosize=`wc -l data/run$run.readks | item 1`; pabFull data/run$run $l $k $delta 2 $infosize save; cat data/run$run.contigsString | qcheck2 data/$gen.fa data/$gen.sa | grep NO | wc -l
+run=n4g; delta=0; dist=4800; l=100; k=99; cov=0; gen=chr22filt; cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov ; sort -S10g -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks; infosize=`wc -l data/run$run.readks | item 1`; pabFull data/run$run $l $k $delta 2 $infosize save; cat data/run$run.contigsString | qcheck2 data/$gen.fa data/$gen.sa | grep NO | wc -l
+
+
+Post Recomb final prior to JCB submission
+run=v1; delta=0; dist=4900; l=50; k=49; cov=0; gen=ecoli; cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov; cat data/run$run.readl | dbt rc -i raw -l 2 | awk '{ print $1; print $2 }' | dbt raw2fa > data/run$run.reads.fa ; velveth data/vel$run $k data/run$run.reads.fa -shortPaired ; velvetg data/vel$run  -ins_length `echo $dist + $l + $l | bc`  -exp_cov 2 -scaffolding no; echo velvet $l $k > data/run$run.contigs; cat  data/vel$run/contigs.fa | dbt fa2raw | awk '{ print length($1) }' | sort -rn >> data/run$run.contigs
+run=v2; delta=0; dist=1900; l=50; k=49; cov=0; gen=ecoli; cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov; cat data/run$run.readl | dbt rc -i raw -l 2 | awk '{ print $1; print $2 }' | dbt raw2fa > data/run$run.reads.fa  
+run=v3; delta=200; dist=900; l=50; k=49; cov=0; gen=ecoli; cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov; cat data/run$run.readl | dbt rc -i raw -l 2 | awk '{ print $1; print $2 }' | dbt raw2fa > data/run$run.reads.fa
+
+run=v1; delta=0; dist=4900; l=50; k=49; cov=0; gen=ecoli; cat data/run$run.readl | awk '{ print $1; print $2 }' | dbt raw2fa > data/run$run.readsforglenn.fa 
+
+Rerun with gaussian distrib (never happened though):
+
+run=f2e; delta=20; dist=900; l=50; k=49; cov=0; gen=ecoli;
+run=f2f; delta=40; dist=900; l=50; k=49; cov=0; gen=ecoli;
+run=f2h; delta=200; dist=900; l=50; k=49; cov=0; gen=ecoli;
+run=f2a; delta=5; dist=900; l=50; k=49; cov=0; gen=chr22filt;
+run=f2b; delta=20; dist=900; l=50; k=49; cov=0; gen=chr22filt;
+run=f2c; delta=40; dist=900; l=50; k=49; cov=0; gen=chr22filt;
+cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov ; sort -S11g -k1,1 data/run$run.readk | awk '{ print $2 }' > data/run$run.readks; infosize=`wc -l data/run$run.readks | item 1`; pabFull data/run$run $l $k $delta 7 $infosize save; cat data/run$run.contigsString | qcheck2 data/$gen.fa data/$gen.sa | grep NO | wc -l
+
+
+Runs to regenerate readl for eulersr
+run=hum1a; delta=0; is=5000; l=50; cov=0; gen=chr22filt; dist=`echo $is - $l - $l | bc`; k=`echo $l - 1 | bc`; cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov; cat data/run$run.readl | dbt rc -i raw -l 2 | awk '{ cnt=cnt+1; print ">" cnt "/1"; print $1; print ">" cnt "/2"; print $2; }' > data/run$run.fa
+run=hum1b; delta=0; is=1000; l=50; cov=0; gen=chr22filt;dist=`echo $is - $l - $l | bc`; k=`echo $l - 1 | bc`; cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov; cat data/run$run.readl | dbt rc -i raw -l 2 | awk '{ cnt=cnt+1; print ">" cnt "/1"; print $1; print ">" cnt "/2"; print $2; }' > data/run$run.fa
+run=hum1c; delta=0; is=200; l=50; cov=0; gen=chr22filt;dist=`echo $is - $l - $l | bc`; k=`echo $l - 1 | bc`; cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov; cat data/run$run.readl | dbt rc -i raw -l 2 | awk '{ cnt=cnt+1; print ">" cnt "/1"; print $1; print ">" cnt "/2"; print $2; }' > data/run$run.fa
+run=hum2a; delta=0; is=1000; l=300; cov=0; gen=chr22filt;dist=`echo $is - $l - $l | bc`; k=`echo $l - 1 | bc`; cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov; cat data/run$run.readl | dbt rc -i raw -l 2 | awk '{ cnt=cnt+1; print ">" cnt "/1"; print $1; print ">" cnt "/2"; print $2; }' > data/run$run.fa
+run=hum2b; delta=0; is=1000; l=100; cov=0; gen=chr22filt;dist=`echo $is - $l - $l | bc`; k=`echo $l - 1 | bc`; cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov; cat data/run$run.readl | dbt rc -i raw -l 2 | awk '{ cnt=cnt+1; print ">" cnt "/1"; print $1; print ">" cnt "/2"; print $2; }' > data/run$run.fa
+run=hum2d; delta=0; is=1000; l=20; cov=0; gen=chr22filt;dist=`echo $is - $l - $l | bc`; k=`echo $l - 1 | bc`; cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov; cat data/run$run.readl | dbt rc -i raw -l 2 | awk '{ cnt=cnt+1; print ">" cnt "/1"; print $1; print ">" cnt "/2"; print $2; }' > data/run$run.fa
+run=hum3b; delta=5; is=1000; l=50; cov=0; gen=chr22filt;dist=`echo $is - $l - $l | bc`; k=`echo $l - 1 | bc`; cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov; cat data/run$run.readl | dbt rc -i raw -l 2 | awk '{ cnt=cnt+1; print ">" cnt "/1"; print $1; print ">" cnt "/2"; print $2; }' > data/run$run.fa
+run=hum3c; delta=20; is=1000; l=50; cov=0; gen=chr22filt;dist=`echo $is - $l - $l | bc`; k=`echo $l - 1 | bc`; cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov; cat data/run$run.readl | dbt rc -i raw -l 2 | awk '{ cnt=cnt+1; print ">" cnt "/1"; print $1; print ">" cnt "/2"; print $2; }' > data/run$run.fa
+run=hum3d; delta=40; is=1000; l=50; cov=0; gen=chr22filt;dist=`echo $is - $l - $l | bc`; k=`echo $l - 1 | bc`; cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov; cat data/run$run.readl | dbt rc -i raw -l 2 | awk '{ cnt=cnt+1; print ">" cnt "/1"; print $1; print ">" cnt "/2"; print $2; }' > data/run$run.fa
+run=eco1z; delta=0; is=1000; l=50; cov=0; gen=ecoli; dist=`echo $is - $l - $l | bc`; k=`echo $l - 1 | bc`; cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov; cat data/run$run.readl | dbt rc -i raw -l 2 | awk '{ cnt=cnt+1; print ">" cnt "/1"; print $1; print ">" cnt "/2"; print $2; }' > data/run$run.fa
+run=eco1a; delta=0; is=2000; l=50; cov=0; gen=ecoli;dist=`echo $is - $l - $l | bc`; k=`echo $l - 1 | bc`; cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov; cat data/run$run.readl | dbt rc -i raw -l 2 | awk '{ cnt=cnt+1; print ">" cnt "/1"; print $1; print ">" cnt "/2"; print $2; }' > data/run$run.fa
+run=eco1b; delta=0; is=200; l=50; cov=0; gen=ecoli;dist=`echo $is - $l - $l | bc`; k=`echo $l - 1 | bc`; cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov; cat data/run$run.readl | dbt rc -i raw -l 2 | awk '{ cnt=cnt+1; print ">" cnt "/1"; print $1; print ">" cnt "/2"; print $2; }' > data/run$run.fa
+run=eco2a; delta=0; is=1000; l=20; cov=0; gen=ecoli;dist=`echo $is - $l - $l | bc`; k=`echo $l - 1 | bc`; cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov; cat data/run$run.readl | dbt rc -i raw -l 2 | awk '{ cnt=cnt+1; print ">" cnt "/1"; print $1; print ">" cnt "/2"; print $2; }' > data/run$run.fa
+run=eco2b; delta=0; is=1000; l=10; cov=0; gen=ecoli;dist=`echo $is - $l - $l | bc`; k=`echo $l - 1 | bc`; cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov; cat data/run$run.readl | dbt rc -i raw -l 2 | awk '{ cnt=cnt+1; print ">" cnt "/1"; print $1; print ">" cnt "/2"; print $2; }' > data/run$run.fa
+run=eco3b; delta=20; is=1000; l=50; cov=0; gen=ecoli;dist=`echo $is - $l - $l | bc`; k=`echo $l - 1 | bc`; cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov; cat data/run$run.readl | dbt rc -i raw -l 2 | awk '{ cnt=cnt+1; print ">" cnt "/1"; print $1; print ">" cnt "/2"; print $2; }' > data/run$run.fa
+run=eco3c; delta=40; is=1000; l=50; cov=0; gen=ecoli;dist=`echo $is - $l - $l | bc`; k=`echo $l - 1 | bc`; cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov; cat data/run$run.readl | dbt rc -i raw -l 2 | awk '{ cnt=cnt+1; print ">" cnt "/1"; print $1; print ">" cnt "/2"; print $2; }' > data/run$run.fa
+run=eco3d; delta=200; is=1000; l=50; cov=0; gen=ecoli;dist=`echo $is - $l - $l | bc`; k=`echo $l - 1 | bc`; cp data/$gen.fa data/run$run; generateReads data/run$run $l $k $dist $delta $cov; cat data/run$run.readl | dbt rc -i raw -l 2 | awk '{ cnt=cnt+1; print ">" cnt "/1"; print $1; print ">" cnt "/2"; print $2; }' > data/run$run.fa
+
+run=eco1a; echo $run > run$run.lengths; cat $run.fasta.contig | grep -v "^$" | dbt fa2raw | awk '{ print length($1) }' | sort -rn >> run$run.lengths
+run=eco1b;echo $run > run$run.lengths; cat $run.fasta.contig | grep -v "^$" | dbt fa2raw | awk '{ print length($1) }' | sort -rn >> run$run.lengths
+run=eco2a;echo $run > run$run.lengths; cat $run.fasta.contig | grep -v "^$" | dbt fa2raw | awk '{ print length($1) }' | sort -rn >> run$run.lengths
+run=eco2b;echo $run > run$run.lengths; cat $run.fasta.contig | grep -v "^$" | dbt fa2raw | awk '{ print length($1) }' | sort -rn >> run$run.lengths
+run=eco3b;echo $run > run$run.lengths; cat $run.fasta.contig | grep -v "^$" | dbt fa2raw | awk '{ print length($1) }' | sort -rn >> run$run.lengths
+run=eco3c;echo $run > run$run.lengths; cat $run.fasta.contig | grep -v "^$" | dbt fa2raw | awk '{ print length($1) }' | sort -rn >> run$run.lengths
+run=eco3d;echo $run > run$run.lengths; cat $run.fasta.contig | grep -v "^$" | dbt fa2raw | awk '{ print length($1) }' | sort -rn >> run$run.lengths
+run=eco1z;echo $run > run$run.lengths; cat $run.fasta.contig | grep -v "^$" | dbt fa2raw | awk '{ print length($1) }' | sort -rn >> run$run.lengths
+run=hum1a;echo $run > run$run.lengths; cat $run.fasta.contig | grep -v "^$" | dbt fa2raw | awk '{ print length($1) }' | sort -rn >> run$run.lengths
+run=hum1b;echo $run > run$run.lengths; cat $run.fasta.contig | grep -v "^$" | dbt fa2raw | awk '{ print length($1) }' | sort -rn >> run$run.lengths
+run=hum1c;echo $run > run$run.lengths; cat $run.fasta.contig | grep -v "^$" | dbt fa2raw | awk '{ print length($1) }' | sort -rn >> run$run.lengths
+run=hum3b;echo $run > run$run.lengths; cat $run.fasta.contig | grep -v "^$" | dbt fa2raw | awk '{ print length($1) }' | sort -rn >> run$run.lengths
+run=hum3c;echo $run > run$run.lengths; cat $run.fasta.contig | grep -v "^$" | dbt fa2raw | awk '{ print length($1) }' | sort -rn >> run$run.lengths
+run=hum3d;echo $run > run$run.lengths; cat $run.fasta.contig | grep -v "^$" | dbt fa2raw | awk '{ print length($1) }' | sort -rn >> run$run.lengths
+run=hum1cnp;echo $run > run$run.lengths; cat $run.fasta.contig | grep -v "^$" | dbt fa2raw | awk '{ print length($1) }' | sort -rn >> run$run.lengths
+
+
