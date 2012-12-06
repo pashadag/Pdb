@@ -271,7 +271,7 @@ void *GetSimpleGraphStructure(void * params) {
 	for(long i = start; i < end; i++) {
 		set<long> positionSet;
 		long currentNodeID = info[i].nodeID;
-		if (info[i].nodeID2 == -1) {
+		if (info[i].nodeID2 == -1) {  //huh? is this for the case when there are gaps in coverage?
 			assert (i + 1 == infosize || info[i+1].nodeID != currentNodeID);
 			nextNodes[currentNodeID] = -1;
 		} else {
@@ -332,6 +332,8 @@ set<long> GetSourcesNodes()
 
 set<long> GetSourcesNodes()
 {
+	//1-out vertices that do not have a 1-out predecessor
+
 	set<long> sourceNodes ;
 	set<long> nodesOutGoing ;
 	set<long> nodesInGoing;
@@ -404,24 +406,42 @@ void PrintSet (set<long> &s)
 	}
 	cout<<endl;
 }
-void FindAndPrintContig(vector<long> &path,ostream &stream )
+
+string getRightMates(long infoIdx) {
+	ostringstream oMsg;
+	oMsg.write(&allReadConcatenated[info[infoIdx].position + L], k);
+	infoIdx++;
+	while (compeqk(info[infoIdx-1], info[infoIdx])) {
+		oMsg << ":";
+		oMsg.write(&allReadConcatenated[info[infoIdx].position + L], k);
+		infoIdx++;
+	}
+	return oMsg.str();
+}
+
+void FindAndPrintContig(vector<long> & node2info, vector<long> &path,ostream &stream )
 {
 	ostringstream oMsg;
 	//find the first path: 
 	if(path.size() == 0)
 		return ;
-	position_id kmer(-1, path[0], -2);
-	position_id * it = lower_bound(&info[0], &info[infosize], kmer, compareFunctorByNodeID());
+
+	position_id * it;
+	it = &(info[node2info[path[0]]]);
+
+	/*position_id kmer(-1, path[0], -2);
+	it = lower_bound(&info[0], &info[infosize], kmer, compareFunctorByNodeID());
 	if(it == &info[infosize])
 	{
 		cerr<<"Some error in binary search for vertexID \n";
 	}
+	*/
 	oMsg.write(&allReadConcatenated[it->position] ,k);
 	for(long i = 1 ; i < path.size() ; i++)
 	{
-		kmer.nodeID = path[i];
-		it = lower_bound(&info[0], &info[infosize], kmer, compareFunctorByNodeID());
-		assert(kmer.nodeID == it->nodeID);
+		//kmer.nodeID = path[i]; it = lower_bound(&info[0], &info[infosize], kmer, compareFunctorByNodeID());
+		it = &(info[node2info[path[i]]]);
+		assert(path[i] == it->nodeID);
 		oMsg.put( allReadConcatenated[(it->position) + k-1]);
 	}
 	//stream << oMsg.str().substr(0, oMsg.str().length() - k);
@@ -706,7 +726,16 @@ void dumpGraph(string filename, string name) {
 	return ; 
 }
 
-
+void fillNode2Info (vector<long> & node2info) { 
+	node2info.clear();
+	node2info.push_back(info[0].nodeID);
+	for (long i = 1; i < infosize; i++) {
+		if (info[i].nodeID != info[i-1].nodeID) {
+			node2info.push_back(i);
+			assert (info[i].nodeID == node2info.size() - 1);
+		}
+	}
+}
 
 bool fastmode = false;
 bool savemode = false;
@@ -771,6 +800,7 @@ int main(int argc, char* argv[])
 
 		cerr << "Fill in nodeIDs in info in the de Bruijn way.\n";
 		vector<long> node2info;
+
 		info[0].nodeID = 0;
 		long curId = 0;
 		node2info.push_back(0);
@@ -781,7 +811,7 @@ int main(int argc, char* argv[])
 			}
 			info[i].nodeID = curId;
 		}
-		dumpGraph(base + ".db.dot", "DB");
+		//dumpGraph(base + ".db.dot", "DB");
 
 		numNextNodes = info[infosize-1].nodeID + 1;
 		nextNodes = new long[numNextNodes];
@@ -886,6 +916,7 @@ int main(int argc, char* argv[])
 			file.close();
 		}
 	}  
+
 	if (fastmode) {
 		ifstream file ;
 		cerr << "Reading in dbinfo...\n";
@@ -936,11 +967,11 @@ int main(int argc, char* argv[])
 		for(long i = 0; i < infosize; i++) infofile << info[i].position << "\t" << info[i].nodeID << "\t" << info[i].nodeID2 <<endl;  
 		infofile.close();
 		cerr<<" end partioning.\n";
-		dumpGraph(base + ".pdb.dot", "DB");
+		//dumpGraph(base + ".pdb.dot", "DB");
 		ep.clear(); //this is invalid, don't even think of using it anymore.  you changed all the vertexIDs in Partition, remember?
 		colAdj.clear(); //we also don't use this anymore, so forget about it.
 	}
-	
+
 
 	cerr << "Finding chains...";
 	numNextNodes = info[infosize-1].nodeID + 1;
@@ -956,25 +987,56 @@ int main(int argc, char* argv[])
 	set<long> sourceNodes = GetSourcesNodes();
 
 	cerr<<"end finding chains.\nPrinting contigs...\n";
-	ofstream outFile, detailOutFile, stringOutFile ;
-	outFile.open((base + ".contigs").c_str());
+
+	vector<long> node2info;
+	fillNode2Info(node2info); //we will use this for outputing the right mates for Nathan.
+	ofstream lengthOutFile, detailOutFile, stringOutFile ;
+	lengthOutFile.open((base + ".contigs").c_str());
 	detailOutFile.open((base + ".contigsdetail").c_str());
 	stringOutFile.open((base + ".contigsString").c_str());
 
-	outFile<< "L="<< L <<  "\t" << "k=" << k << "\tDel=" << delta << endl;
+
+	lengthOutFile<< "L="<< L <<  "\t" << "k=" << k << "\tDel=" << delta << endl;
 	long counter = 0;
 	for(set<long>::iterator it = sourceNodes.begin(); it!= sourceNodes.end(); it++)
 	{
 		vector<long> path = FindPath(*it);
 		if (path.size() > k) {
 			PrintVector(path, detailOutFile);
-			outFile << (path.size() )<<endl;
-			//outFile << (path.size() + k)<<endl;
-			stringOutFile << ">" << counter++ << endl;
-			FindAndPrintContig(path, stringOutFile);
+			lengthOutFile << (path.size() )<<endl;
+			//lengthOutFile << (path.size() + k)<<endl;
+			//find first and last 
+			string begin_mates = getRightMates(node2info[path[0]]);
+			string end_mates   = getRightMates(node2info[path.back()]);
+			//stringOutFile << ">" << counter++ << endl;
+			stringOutFile << ">" << counter++ << "_" << begin_mates << "_" << end_mates << endl;
+			FindAndPrintContig(node2info, path, stringOutFile);
 		}
 	}
-	outFile.close();
+
+	//output single edges that are not included in chains
+	string last = "";
+	for(long i = 0; i < infosize; i++) {
+		long currentNodeID = info[i].nodeID;
+		if (nextNodes[currentNodeID] == -1) {
+			ostringstream oMsg;
+			long pos = info[i].position;
+			if ( ((pos % L) - (L- k)) == 0 ) continue; //this is the last kmer of a read
+			oMsg.write(&allReadConcatenated[pos] ,k+1);
+			string seq = oMsg.str();
+			//if (seq != last) {
+			ostringstream oMsg2;
+			oMsg2.write(&allReadConcatenated[pos + L], k + 1);
+			string mate = oMsg2.str();
+			stringOutFile << ">SHORT_" << counter++ << "_" << mate << endl;
+			stringOutFile << seq << endl;
+			//}
+			last = seq;
+		}
+	}
+
+
+	lengthOutFile.close();
 	detailOutFile.close();
 	stringOutFile.close();
 	delete info;

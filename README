@@ -1,4 +1,4 @@
-Code for PDB paper (recomb 11)
+Code for Paired de Bruijn graph , based on recomb 2011 paper.  There has been some development since the paper, but you can still find the original code in Recomb2011version.zip
 
 MAIN FILES:
 
@@ -43,6 +43,9 @@ Uses suffix array to check accuracy of contigs
 
 OTHER:
 
+generateKs.cpp
+Takes a readl file (with reads) and generates a readk file (with kmers).
+
 check_loops.cpp    
 Reports any loops found in the dbcollapsed output file.
 
@@ -72,3 +75,10 @@ A replacement for ab.cpp saves memory by using indices into the  genome sequence
 validate.cpp
 A tool that takes a partition info and, using the source genome sequence as a cheat, checks if the partitioning is safe.
 
+FILE FORMATS:
+
+readl : each line is a matepair, left read followed by right read, no space in between
+readk : each line is a left kmer in the reads and its position in readl
+readks : readk sorted by the kmers with only the position stored
+
+Workflow from a readl file is to first run generateKs to create readk, then sort to create readks, then pabFull to run assembly

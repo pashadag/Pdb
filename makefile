@@ -18,7 +18,7 @@ CFLAGS = $(COPT)
 #	$(CC) $(CFLAGS) $*.c # start with a tab character!!
 
 # Default target
-all: pabNL buildsa qcheck2 ab pab generateReads singleGenerateReads pabNLpar pabFull short abshort
+all: pabNL buildsa qcheck2 ab pab generateReads singleGenerateReads pabNLpar pabFull short abshort generateKs
 #	@echo "compilation done"
 
 validate: validate.o
@@ -61,6 +61,10 @@ generateReads: generateReads.o
 	$(CC) generateReads.o -o generateReads
 generateReads.o : generateReads.cpp
 	$(CC) -c $(COPT) generateReads.cpp -o generateReads.o
+generateKs: generateKs.o
+	$(CC) generateKs.o -o generateKs
+generateKs.o : generateKs.cpp
+	$(CC) -c $(COPT) generateKs.cpp -o generateKs.o
 singleGenerateReads: singleGenerateReads.o
 	$(CC) singleGenerateReads.o -o singleGenerateReads
 singleGenerateReads.o : singleGenerateReads.cpp
